@@ -132,7 +132,7 @@ export default function CareersPage() {
                                 Why Work With Us
                             </h2>
                             <p className="text-lg text-[var(--uney-gray)] max-w-3xl mx-auto">
-                                We're building technology that matters. Join us in creating solutions that protect privacy and empower users worldwide.
+                                We&apos;re building technology that matters. Join us in creating solutions that protect privacy and empower users worldwide.
                             </p>
                         </div>
 
@@ -210,10 +210,10 @@ export default function CareersPage() {
                     <div className="container">
                         <div className="text-center space-y-8">
                             <h2 className="text-3xl md:text-4xl font-bold text-[var(--uney-dark)]">
-                                Don't See Your Role?
+                                Don&apos;t See Your Role?
                             </h2>
                             <p className="text-lg text-[var(--uney-gray)] max-w-2xl mx-auto">
-                                We're always looking for talented individuals who share our vision. Send us your resume and let's start a conversation.
+                                We&apos;re always looking for talented individuals who share our vision. Send us your resume and let&apos;s start a conversation.
                             </p>
                             <button className="inline-flex items-center space-x-2 bg-[var(--uney-orange)] text-white px-8 py-4 rounded-lg hover:bg-[#e55a2b] transition-colors font-semibold">
                                 <span>Send Your Resume</span>

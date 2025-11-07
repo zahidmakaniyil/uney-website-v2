@@ -41,8 +41,8 @@ export default function ContactUsPage() {
                                     Get in Touch
                                 </h2>
                                 <p className="text-lg text-gray-600 mb-8">
-                                    Have a question about our privacy-first solutions? We'd love to hear from you.
-                                    Send us a message and we'll respond as soon as possible.
+                                    Have a question about our privacy-first solutions? We&apos;d love to hear from you.
+                                    Send us a message and we&apos;ll respond as soon as possible.
                                 </p>
 
                                 <form className="space-y-6">
