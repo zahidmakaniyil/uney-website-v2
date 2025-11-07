@@ -1,0 +1,348 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #FEF7ED;
+  --color-primary-100: #FDEDD3;
+  --color-primary-200: #FBD7A5;
+  --color-primary-300: #F8BC6D;
+  --color-primary-400: #F59E42;
+  --color-primary-500: #BE6A14;
+  --color-primary-600: #A55A0F;
+  --color-primary-700: #8B4A0C;
+  --color-primary-800: #713B09;
+  --color-primary-900: #572C07;
+  --color-primary: #BE6A14;
+  
+  --color-secondary: #454955;
+  --color-heading:#2E3038;
+  --color-neutral: #5C6170;
+  --color-gray-600:#4a5565;
+  --color-surface-gray:#F1F1F4;
+}
+
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  background-color: #000;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  background-color: #fff;
+}
+
+/* Simple body scroll lock */
+body.scroll-locked {
+  overflow: hidden;
+}
+
+/* Mobile Header Styles */
+@media (max-width: 767px) {
+  .mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+  }
+  
+  .mobile-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 20rem;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .mobile-sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 40;
+  }
+}
+
+/* Prose Styling */
+.prose {
+  color: #1f2937;
+  line-height: 1.7;
+}
+
+.prose h2 {
+  color: #1f2937;
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.prose h3 {
+  color: #1f2937;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+  color: #6b7280;
+}
+
+.prose ul, .prose ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+  color: #6b7280;
+}
+
+.prose strong {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.prose a {
+  color: #f97316;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 0.3s ease;
+}
+
+.prose a:hover {
+  text-decoration-color: #f97316;
+}
+
+/* Font Utility Classes */
+.font-josefin {
+  font-family: var(--font-josefin-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* Hero Heading Typography */
+.hero-heading {
+  font-family: var(--font-josefin-sans), system-ui, -apple-system, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  
+  /* Mobile styles */
+  font-size: 48px;
+  line-height: 60px;
+  letter-spacing: -1.92px;
+}
+
+
+
+/* Hero Paragraph Typography */
+.hero-paragraph {
+  font-style: normal;
+  font-weight: 400;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  
+  /* Mobile styles */
+  font-size: 18px;
+  line-height: 26px;
+}
+
+
+
+/* Mobile Navigation Links Typography */
+.mobile-nav-link {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.2px;
+}
+.desktop-nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+/* Discover Button Typography */
+.discover-button-text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+/* Scrollbar Hide Utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+/* Line Clamp Utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: -0.2px;
+}
+.section-subtitle {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+.solution-tab-title {
+font-size: 20px;
+font-weight: 600;
+line-height: 28px;
+letter-spacing: -0.2px;
+}
+
+.solution-card-title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.2px;
+}
+.solution-card-description {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+.core-promise-card-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -0.48px;
+}
+.core-promise-card-description {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.our-story-description {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 26px;
+}
+.vision-mission-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -0.48px;
+}
+.vision-mission-description {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+.team-description {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 26px;
+}
+.team-button-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+.resource-card-title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.2px;
+}
+.resource-card-date {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+.cta-text {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: -0.72px;
+}
+.cta-button-text {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.2px;
+}
+.footer-link-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -0.48px;
+}
+.footer-link-description {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+.footer-copyright-text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+/* Desktop styles */
+@media (min-width: 768px) {
+  .hero-heading {
+    font-size: 76px;
+    line-height: 100px;
+    letter-spacing: -2.28px;
+  }
+  .hero-paragraph {
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: -0.2px;
+    width: 584px;
+  }
+  .section-title {
+font-size: 64px;
+font-weight: 600;
+line-height: 74px;
+max-width: 720px;
+  }
+  .section-subtitle {
+font-size: 20px;
+font-weight: 500;
+line-height: 28px;
+max-width: 720px;
+margin: 0 auto;
+  }
+  .cta-text {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 74px;
+  }
+  .footer-copyright-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+}
