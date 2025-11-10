@@ -75,6 +75,11 @@ const ResourceDetailPage = ({
     relatedResources,
     ctaData,
 }: ResourceDetailPageProps) => {
+    // Defensive check - ensure resourceDetail exists
+    if (!resourceDetail || !resourceDetail.title) {
+        return null;
+    }
+
     return (
         <>
             <section

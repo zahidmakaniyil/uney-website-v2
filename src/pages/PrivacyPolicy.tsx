@@ -14,6 +14,11 @@ const PrivacyPolicyPage = ({
     contentData,
     ctaData,
 }: PrivacyPolicyPageProps) => {
+    // Defensive check - ensure contentData exists
+    if (!contentData) {
+        return null;
+    }
+
     const { heading, content } = contentData;
     return (
         <>

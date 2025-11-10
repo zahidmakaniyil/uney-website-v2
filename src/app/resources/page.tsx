@@ -2,24 +2,12 @@ import { cache } from "react";
 import { Metadata } from "next";
 import { resourcesPageData, resources } from "@/dummyData/resources";
 import ResourcesPageComponent from "@/pages/Resources";
-import { Article, PageMetaData, PaginationResponse } from "@/types";
-import { CtaContainerProps } from "@/containers/Cta";
+import { Article, PageMetaData, PaginationResponse, ResourcesPageData, ResourcesPageContentData } from "@/types";
 import { CACHE_DURATION } from "@/utils/constants";
 
 // Simple in-memory cache for static data
 let staticDataCache: ResourcesPageData | null = null;
 let cacheTimestamp = 0;
-
-export interface ResourcesPageContentData {
-    pageTitle: string;
-    resourcesTitle: string;
-}
-
-export interface ResourcesPageData {
-    metaData: PageMetaData;
-    contentData: ResourcesPageContentData;
-    ctaData: CtaContainerProps;
-}
 
 interface ResourcesPageProps {
     searchParams: { page?: string; limit?: string };
@@ -29,11 +17,21 @@ interface ResourcesPageProps {
 const getStaticPageData = async (): Promise<ResourcesPageData> => {
     const now = Date.now();
 
+    // Only return cache if it's valid
     if (staticDataCache && (now - cacheTimestamp) < CACHE_DURATION) {
-        return staticDataCache;
+        if (staticDataCache.contentData && staticDataCache.ctaData) {
+            return staticDataCache;
+        }
+        // Clear invalid cache
+        staticDataCache = null;
     }
 
     await new Promise((resolve) => setTimeout(resolve, 50));
+
+    if (!resourcesPageData || !resourcesPageData.contentData || !resourcesPageData.ctaData) {
+        throw new Error("Resources page data is not available or incomplete");
+    }
+
     staticDataCache = resourcesPageData;
     cacheTimestamp = now;
     return staticDataCache;
@@ -42,6 +40,10 @@ const getStaticPageData = async (): Promise<ResourcesPageData> => {
 // Dynamic paginated resources - cached per page/limit combination
 const getPaginatedResources = cache(async (page: number, limit: number): Promise<PaginationResponse<Article>> => {
     await new Promise((resolve) => setTimeout(resolve, 50));
+
+    if (!resources || !Array.isArray(resources)) {
+        throw new Error("Resources array is not available");
+    }
 
     const offset = (page - 1) * limit;
     const totalItems = resources.length;
@@ -114,15 +116,47 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
     const page = parseInt(searchParams.page || '1', 10);
     const limit = parseInt(searchParams.limit || '10', 10);
 
+    // Get static data first to ensure it's available
+    const pageData = await getStaticPageData();
+
     // Only fetch paginated resources - static data is already cached from generateMetadata
     const paginatedResources = await getPaginatedResources(page, limit);
 
-    // Get static data from cache (should not trigger new API call)
-    const pageData = await getStaticPageData();
+    if (!pageData) {
+        throw new Error("Resources page data is not available");
+    }
+
+    if (!pageData.contentData) {
+        throw new Error("Resources page contentData is missing");
+    }
+
+    if (!pageData.ctaData) {
+        throw new Error("Resources page ctaData is missing");
+    }
+
+    // Ensure contentData has all required properties
+    if (!pageData.contentData.pageTitle || !pageData.contentData.resourcesTitle) {
+        throw new Error("Resources page contentData is missing required properties");
+    }
+
+    // Create explicit objects with fallbacks to ensure proper serialization during build
+    const contentData = {
+        pageTitle: pageData.contentData?.pageTitle || 'Resources',
+        resourcesTitle: pageData.contentData?.resourcesTitle || 'All Resources',
+    };
+
+    // Ensure we have valid strings
+    if (typeof contentData.pageTitle !== 'string' || typeof contentData.resourcesTitle !== 'string') {
+        throw new Error("Resources page contentData object creation failed - invalid types");
+    }
+
+    if (!pageData.ctaData || !pageData.ctaData.buttonText || !pageData.ctaData.headingLines) {
+        throw new Error("Resources page ctaData is incomplete");
+    }
 
     return (
         <ResourcesPageComponent
-            contentData={pageData.contentData}
+            contentData={contentData}
             ctaData={pageData.ctaData}
             paginatedResources={paginatedResources}
         />

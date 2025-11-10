@@ -3,9 +3,8 @@ import Resource2Image from "@/assets/images/resource-2.png";
 import Resource3Image from "@/assets/images/resource-3.png";
 import Resource4Image from "@/assets/images/resource-4.png";
 import Resource5Image from "@/assets/images/resource-5.png";
-import { Article, PageMetaData } from "@/types";
+import { Article, PageMetaData, ResourcesPageData } from "@/types";
 import { ctaData } from "./home";
-import { ResourcesPageData } from "@/app/resources/page";
 
 const resourcesPageMetaData: PageMetaData = {
     title: "UNEY - Privacy First, Always | AI-Powered Privacy Solutions",

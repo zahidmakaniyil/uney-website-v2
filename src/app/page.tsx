@@ -1,62 +1,33 @@
 import { homePageData } from "@/dummyData/home";
 import HomePageComponent from "@/pages/Home";
 import { Metadata } from "next";
-import { CtaContainerProps } from "@/containers/Cta";
-import { AboutContainerProps } from "@/containers/About";
-import { TeamContainerProps } from "@/containers/Team";
-import { ResourcesContainerProps } from "@/containers/Resources";
-import { HeroContainerProps } from "@/containers/Hero";
-import { SolutionsContainerProps } from "@/containers/Solutions";
-import { CorePromiseContainerProps } from "@/containers/CorePromise";
-import { PageMetaData } from "@/types";
+import { HomePageData } from "@/types";
 import { CACHE_DURATION } from "@/utils/constants";
 
 // Simple in-memory cache for home page data
 let homePageDataCache: HomePageData | null = null;
 let cacheTimestamp = 0;
 
-export interface HomePageData {
-  metaData: PageMetaData;
-  heroData: HeroContainerProps;
-  solutionsData: SolutionsContainerProps;
-  corePromiseData: CorePromiseContainerProps;
-  aboutData: AboutContainerProps;
-  teamData: TeamContainerProps;
-  resourcesData: ResourcesContainerProps;
-  ctaData: CtaContainerProps;
-}
-
 // Home page data using simple cache with time duration
 const getHomePageData = async (): Promise<HomePageData> => {
   const now = Date.now();
 
+  // Only return cache if it's valid
   if (homePageDataCache && (now - cacheTimestamp) < CACHE_DURATION) {
-    return homePageDataCache;
+    if (homePageDataCache.heroData && homePageDataCache.ctaData) {
+      return homePageDataCache;
+    }
+    // Clear invalid cache
+    homePageDataCache = null;
   }
 
   await new Promise((resolve) => setTimeout(resolve, 50));
 
-  const {
-    metaData,
-    heroData,
-    solutionsData,
-    corePromiseData,
-    aboutData,
-    teamData,
-    resourcesData,
-    ctaData,
-  } = homePageData; //TODO: using dummy data for now
+  if (!homePageData || !homePageData.heroData || !homePageData.ctaData) {
+    throw new Error("Home page data is not available or incomplete");
+  }
 
-  homePageDataCache = {
-    metaData,
-    heroData,
-    solutionsData,
-    corePromiseData,
-    aboutData,
-    teamData,
-    resourcesData,
-    ctaData,
-  };
+  homePageDataCache = homePageData;
 
   cacheTimestamp = now;
   return homePageDataCache;
@@ -113,24 +84,38 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 export default async function HomePage() {
-  const {
-    heroData,
-    solutionsData,
-    corePromiseData,
-    aboutData,
-    teamData,
-    resourcesData,
-    ctaData,
-  } = await getHomePageData();
+  const pageData = await getHomePageData();
+
+  if (!pageData) {
+    throw new Error("Home page data is not available");
+  }
+
+  // Validate all required data exists
+  if (!pageData.heroData || !pageData.solutionsData || !pageData.corePromiseData ||
+    !pageData.aboutData || !pageData.teamData || !pageData.resourcesData || !pageData.ctaData) {
+    throw new Error("Home page data is incomplete");
+  }
+
+  // Ensure ctaData has headingLines
+  if (!pageData.ctaData.headingLines || !Array.isArray(pageData.ctaData.headingLines)) {
+    throw new Error("Home page ctaData is missing headingLines or it's not an array");
+  }
+
+  // Create explicit objects with fallbacks to ensure proper serialization
+  const ctaData = {
+    buttonText: pageData.ctaData?.buttonText || '',
+    buttonLink: pageData.ctaData?.buttonLink || '',
+    headingLines: pageData.ctaData.headingLines,
+  };
 
   return (
     <HomePageComponent
-      heroData={heroData}
-      solutionsData={solutionsData}
-      corePromiseData={corePromiseData}
-      aboutData={aboutData}
-      teamData={teamData}
-      resourcesData={resourcesData}
+      heroData={pageData.heroData}
+      solutionsData={pageData.solutionsData}
+      corePromiseData={pageData.corePromiseData}
+      aboutData={pageData.aboutData}
+      teamData={pageData.teamData}
+      resourcesData={pageData.resourcesData}
       ctaData={ctaData}
     />
   );

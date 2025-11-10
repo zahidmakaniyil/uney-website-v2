@@ -5,7 +5,7 @@ import Solution4Image from "@/assets/images/solution-4.jpg";
 import Resource1Image from "@/assets/images/resource-1.png";
 import Resource2Image from "@/assets/images/resource-2.png";
 import Resource3Image from "@/assets/images/resource-3.png";
-import { PageMetaData } from "@/types";
+import { PageMetaData, HomePageData } from "@/types";
 import { ResourcesContainerProps } from "@/containers/Resources";
 import { HeroContainerProps } from "@/containers/Hero";
 import { SolutionsContainerProps } from "@/containers/Solutions";
@@ -13,7 +13,6 @@ import { CorePromiseContainerProps } from "@/containers/CorePromise";
 import { AboutContainerProps } from "@/containers/About";
 import { TeamContainerProps } from "@/containers/Team";
 import { CtaContainerProps } from "@/containers/Cta";
-import { HomePageData } from "@/app/page";
 
 
 

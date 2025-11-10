@@ -27,9 +27,15 @@ const ResourcesPage = ({
     ctaData,
     paginatedResources,
 }: ResourcesPageProps) => {
-    const { pageTitle, resourcesTitle } = contentData;
     const router = useRouter();
     const searchParams = useSearchParams();
+
+    // Defensive check - ensure contentData exists
+    if (!contentData) {
+        return null;
+    }
+
+    const { pageTitle, resourcesTitle } = contentData;
 
     const { data: resources, pagination } = paginatedResources;
 

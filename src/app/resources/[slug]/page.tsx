@@ -3,8 +3,7 @@ import { notFound } from "next/navigation";
 import { resourceDetailData } from "@/dummyData/resourceDetail";
 import { Metadata } from "next";
 import ResourceDetailPageComponent from "@/pages/ResourceDetail";
-import { PageMetaData } from "@/types";
-import { ArticleDetail } from "@/types";
+import { PageMetaData, ArticleDetail } from "@/types";
 import { ResourcesContainerProps } from "@/containers/Resources";
 import { CtaContainerProps } from "@/containers/Cta";
 import { CACHE_DURATION } from "@/utils/constants";
@@ -15,13 +14,6 @@ let staticDataCache: {
     ctaData: CtaContainerProps;
 } | null = null;
 let cacheTimestamp = 0;
-
-export interface ResourceDetailPageData {
-    metaData: PageMetaData;
-    resourceDetail: ArticleDetail;
-    relatedResourcesData: ResourcesContainerProps;
-    ctaData: CtaContainerProps;
-}
 
 // Static data using simple cache with time duration
 const getStaticData = async (): Promise<{
@@ -36,6 +28,10 @@ const getStaticData = async (): Promise<{
 
     await new Promise((resolve) => setTimeout(resolve, 50));
 
+    if (!resourceDetailData) {
+        throw new Error("Resource detail data is not available");
+    }
+
     const { metaData, ctaData } = resourceDetailData;
     staticDataCache = { metaData, ctaData };
     cacheTimestamp = now;
@@ -45,15 +41,37 @@ const getStaticData = async (): Promise<{
 
 // Dynamic data that changes per slug (resourceDetail + relatedResources) - cached per slug
 const getResourceDetailData = cache(
-    async (
-        _slug: string
-    ): Promise<{
+    async (_slug: string): Promise<{
         resourceDetail: ArticleDetail;
         relatedResourcesData: ResourcesContainerProps;
     }> => {
         await new Promise((resolve) => setTimeout(resolve, 50));
 
-        const { resourceDetail, relatedResourcesData } = resourceDetailData; //TODO: using dummy data for now
+        if (!resourceDetailData) {
+            throw new Error("Resource detail data import is undefined");
+        }
+
+        if (typeof resourceDetailData !== 'object' || resourceDetailData === null) {
+            throw new Error("Resource detail data is not a valid object");
+        }
+
+        if (!resourceDetailData.resourceDetail) {
+            throw new Error("Resource detail data.resourceDetail is missing");
+        }
+
+        if (typeof resourceDetailData.resourceDetail !== 'object' || resourceDetailData.resourceDetail === null) {
+            throw new Error("Resource detail data.resourceDetail is not a valid object");
+        }
+
+        if (!resourceDetailData.resourceDetail.title || !resourceDetailData.resourceDetail.content) {
+            throw new Error("Resource detail data.resourceDetail is missing required properties");
+        }
+
+        if (!resourceDetailData.relatedResourcesData) {
+            throw new Error("Resource detail data.relatedResourcesData is missing");
+        }
+
+        const { resourceDetail, relatedResourcesData } = resourceDetailData;
 
         return {
             resourceDetail,
@@ -126,11 +144,46 @@ export default async function ResourceDetailPage({
         getResourceDetailData(slug),
     ]);
 
-    const { resourceDetail, relatedResourcesData } = dynamicData;
+    if (!dynamicData || !dynamicData.resourceDetail || !dynamicData.relatedResourcesData) {
+        notFound();
+    }
+
+    if (!staticData || !staticData.ctaData) {
+        throw new Error("Resource detail static data is incomplete");
+    }
+
+    // Additional validation of dynamicData structure
+    if (typeof dynamicData.resourceDetail !== 'object' || dynamicData.resourceDetail === null) {
+        throw new Error("Resource detail resourceDetail is not a valid object");
+    }
+
+    // Validate resourceDetail has all required properties
+    if (!dynamicData.resourceDetail.title || !dynamicData.resourceDetail.content) {
+        throw new Error("Resource detail is missing required properties");
+    }
+
+    // Create explicit objects to ensure proper serialization during build
+    const resourceDetail = {
+        slug: dynamicData.resourceDetail.slug || '',
+        title: dynamicData.resourceDetail.title,
+        content: dynamicData.resourceDetail.content,
+        readTime: dynamicData.resourceDetail.readTime || '',
+        author: dynamicData.resourceDetail.author || '',
+        excerpt: dynamicData.resourceDetail.excerpt || '',
+        date: dynamicData.resourceDetail.date || '',
+        image: dynamicData.resourceDetail.image || '',
+    };
+
+    const { relatedResourcesData } = dynamicData;
     const { ctaData } = staticData;
 
-    if (!resourceDetail) {
-        notFound();
+    // Final validation
+    if (!resourceDetail.title || !resourceDetail.content) {
+        throw new Error("Resource detail object creation failed - missing title or content");
+    }
+
+    if (typeof resourceDetail.title !== 'string' || typeof resourceDetail.content !== 'string') {
+        throw new Error("Resource detail object has invalid types");
     }
 
     return (

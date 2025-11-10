@@ -1,9 +1,8 @@
-import { PageMetaData } from "@/types";
+import { PageMetaData, CareerPageData } from "@/types";
 import CareersUneyImage from "@/assets/images/career-image.png";
 import CareersUneyImageMobile from "@/assets/images/career-image-mobile.png";
 import { JobCardProps } from "@/components/JobCard";
 import { ctaData } from "./home";
-import { CareerPageData } from "@/app/careers/page";
 
 export const careerPageMetaData: PageMetaData = {
     title: "UNEY - Privacy First, Always | AI-Powered Privacy Solutions",

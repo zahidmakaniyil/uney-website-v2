@@ -1,6 +1,5 @@
-import { PageMetaData } from "@/types";
+import { PageMetaData, PrivacyPolicyPageData } from "@/types";
 import { ctaData } from "./home";
-import { PrivacyPolicyPageData } from "@/app/privacy-policy/page";
 
 export const privacyPolicyPageMetaData: PageMetaData = {
   title: "UNEY - Privacy First, Always | AI-Powered Privacy Solutions",

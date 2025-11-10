@@ -3,7 +3,6 @@
 import Image from "next/image";
 import JobCard, { JobCardProps } from "@/components/JobCard";
 import Cta, { CtaContainerProps } from "@/containers/Cta";
-import Layout from "@/components/layout";
 
 interface ContentData {
     heading: string;
@@ -20,8 +19,12 @@ interface CareerPageProps {
 }
 
 const CareerPage = ({ contentData, ctaData }: CareerPageProps) => {
-    const { heading, subHeading, heading2, image, imageMobile, jobOpenings } =
-        contentData;
+    // Defensive check - ensure contentData exists
+    if (!contentData) {
+        return null;
+    }
+
+    const { heading, subHeading, heading2, image, imageMobile, jobOpenings } = contentData;
     return (
         <>
             <section className="mt-[72px] pb-[80px] pt-[40px] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
