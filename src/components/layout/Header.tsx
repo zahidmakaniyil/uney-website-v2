@@ -7,63 +7,88 @@ import HamburgerMenuIcon from "@/assets/icons/HamburgerMenuIcon";
 import LogoLight from "@/assets/icons/LogoLight";
 import LogoDark from "@/assets/icons/LogoDark";
 import SidebarCloseIcon from "@/assets/icons/SidebarCloseIcon";
+import ContactModal from "@/components/ContactModal";
 
-// Desktop navigation data structure
+// Desktop navigation data
 const desktopNavigationLinks = [
     {
         label: "About Us",
-        href: "/",
+        href: "/about-us",
         isScrollLink: true,
         scrollTarget: "about",
     },
     {
         label: "Solutions",
-        href: "/",
+        href: "/solutions",
         isScrollLink: true,
         scrollTarget: "solutions",
+        isContactButton: false,
     },
     {
         label: "Resources",
         href: "/resources",
         isScrollLink: false,
+        isContactButton: false,
     },
     {
         label: "Careers",
         href: "/careers",
         isScrollLink: false,
+        isContactButton: false,
+    },
+    {
+        label: "Contact Us",
+        href: "/",
+        isScrollLink: false,
+        isContactButton: true,
     },
 ];
 
-// Mobile navigation data structure
+// Mobile navigation data
 const mobileNavigationLinks = [
     {
         label: "Home",
         href: "/",
         isScrollLink: false,
+        isContactButton: false,
     },
     {
         label: "Resources",
         href: "/resources",
         isScrollLink: false,
+        isContactButton: false,
     },
     {
         label: "Careers",
         href: "/careers",
         isScrollLink: false,
+        isContactButton: false,
     },
     {
         label: "Privacy Policy",
         href: "/privacy-policy",
         isScrollLink: false,
+        isContactButton: false,
+    },
+    {
+        label: "Contact Us",
+        href: "/",
+        isScrollLink: false,
+        isContactButton: true,
     },
 ];
 
-export default function Header() {
+export default function Header({ isLight = false }: { isLight?: boolean }) {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
     const pathname = usePathname();
 
     useEffect(() => {
+        if (isLight) {
+            setIsScrolled(true);
+            return;
+        }
         const handleScroll = () => {
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
@@ -80,7 +105,7 @@ export default function Header() {
             window.removeEventListener("scroll", handleScroll);
             window.removeEventListener("resize", handleScroll);
         };
-    }, []);
+    }, [isLight]);
 
     // Simple scroll lock - just add/remove CSS class
     useEffect(() => {
@@ -105,53 +130,87 @@ export default function Header() {
 
     const isActiveLink = (linkPath: string) => {
         if (linkPath === "/" && pathname === "/") return true;
-        if (linkPath !== "/" && pathname.startsWith(linkPath)) return true;
+        if (linkPath !== "/" && pathname && pathname.startsWith(linkPath)) return true;
         return false;
     };
 
     // Mobile Navigation Component
     const MobileNavLinks = () => (
         <nav className="flex-1 mt-[67px]">
-            <ul className="space-y-1">
-                {mobileNavigationLinks.map((link) => (
-                    <li key={link.label}>
-                        <Link
-                            href={link.href}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={`mobile-nav-link flex items-center h-[56px] block px-[32px] py-3 transition-colors font-bold text-lg ${isActiveLink(link.href)
-                                ? "text-primary border-l-4 border-primary"
-                                : "text-secondary hover:text-gray-900"
-                                }`}
-                        >
-                            {link.label}
-                        </Link>
-                    </li>
-                ))}
+            <ul>
+                {mobileNavigationLinks.map((link, index) => {
+                    if (link.isContactButton) {
+                        return (
+                            <li className="my-[24] mx-[32]" key={index}>
+                                <button
+                                    aria-label="Open contact modal"
+                                    onClick={() => {
+                                        setIsContactModalOpen(true);
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                    className="py-[12px] px-[24px] w-full bg-primary  text-white rounded-lg hover:bg-primary-600 transition-colors cursor-pointer header-contact-button"
+                                >
+                                    {link.label}
+                                </button>
+                            </li>
+                        );
+                    }
+
+                    return (
+                        <li key={link.label}>
+                            <Link
+                                href={link.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className={`mobile-nav-link flex items-center h-[56px] block px-[32px] py-3 transition-colors font-bold text-lg ${isActiveLink(link.href)
+                                    ? "text-primary border-l-4 border-primary"
+                                    : "text-secondary hover:text-gray-900"
+                                    }`}
+                            >
+                                {link.label}
+                            </Link>
+                        </li>
+                    );
+                })}
             </ul>
         </nav>
     );
 
     // Desktop Navigation Component
     const DesktopNavLinks = () => (
-        <div className="flex items-center space-x-8">
-            {desktopNavigationLinks.map((link) =>
+        <div className="flex items-center gap-[32px]">
+            {desktopNavigationLinks.map((link, index) =>
                 link.isScrollLink ? (
                     <button
-                        key={link.label}
+                        aria-label="Scroll to section"
+                        key={index}
                         onClick={() => scrollToSection(link.scrollTarget!)}
                         className={`cursor-pointer desktop-nav-link transition-colors ${isScrolled
-                            ? "text-heading hover:text-primary"
+                            ? `${isActiveLink(link.href) ? "text-primary" : "text-heading"
+                            } hover:text-primary`
                             : "text-white hover:text-primary"
                             }`}
                     >
                         {link.label}
                     </button>
+                ) : link.isContactButton ? (
+                    <button
+                        aria-label="Open contact modal"
+                        key={index}
+                        onClick={() => {
+                            setIsContactModalOpen(true);
+                        }}
+                        className="py-[10px] px-[16px] bg-primary  text-white rounded-lg hover:bg-primary-600 transition-colors cursor-pointer header-contact-button"
+                    >
+                        {link.label}
+                    </button>
                 ) : (
                     <Link
-                        key={link.label}
+                        aria-label="Navigate to section"
+                        key={index}
                         href={link.href}
                         className={`cursor-pointer desktop-nav-link transition-colors ${isScrolled
-                            ? "text-heading hover:text-primary"
+                            ? `${isActiveLink(link.href) ? "text-primary" : "text-heading"
+                            } hover:text-primary`
                             : "text-white hover:text-primary"
                             }`}
                     >
@@ -159,12 +218,6 @@ export default function Header() {
                     </Link>
                 )
             )}
-            <Link
-                href="/contact-us"
-                className="px-6 py-2 rounded-lg font-medium transition-colors bg-primary text-white hover:bg-primary-600"
-            >
-                Contact Us
-            </Link>
         </div>
     );
 
@@ -248,6 +301,10 @@ export default function Header() {
                     </div>
                 </div>
             </div>
+            <ContactModal
+                isOpen={isContactModalOpen}
+                onClose={() => setIsContactModalOpen(false)}
+            />
         </>
     );
 }

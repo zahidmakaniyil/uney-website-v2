@@ -1,9 +1,17 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-export default function CTA() {
-    const buttonText = "Explore Career Opportunities";
+export interface CtaContainerProps {
+    buttonText: string;
+    buttonLink: string;
+    headingLines: string[];
+}
 
+export default function CTA({
+    buttonText,
+    buttonLink,
+    headingLines,
+}: CtaContainerProps) {
     return (
         <section
             className="py-[64px] md:py-[100px] relative"
@@ -19,12 +27,14 @@ export default function CTA() {
             <div className="relative z-10 max-w-7xl mx-auto px-[20px] ">
                 <div className="max-w-7xl mx-auto flex flex-col gap-[32px]">
                     <h2 className="text-start font-josefin text-white cta-text">
-                        Innovate with purpose. <br /> Build with meaning. Belong here.
+                        {headingLines[0]}
+                        <br />
+                        {headingLines[1]}
                     </h2>
 
                     <div className="">
                         <Link
-                            href="/careers"
+                            href={buttonLink}
                             className="inline-flex items-center flex-row gap-[8px] bg-transparent underline  text-white  cta-button-text cursor-pointer  transition-all duration-300  hover:scale-103 "
                         >
                             <span>{buttonText}</span>

@@ -1,35 +1,32 @@
-import ControlIcon from "@/assets/icons/ControlIcon";
-import TransparencyIcon from "@/assets/icons/TransparencyIcon";
 import TrustIcon from "@/assets/icons/TrustIcon";
+import TransparencyIcon from "@/assets/icons/TransparencyIcon";
+import ControlIcon from "@/assets/icons/ControlIcon";
 
-export default function CorePromise() {
-    const sectionTitle = "Our Core Promise";
-    const sectionSubtitle =
-        "Innovation with integrity. Privacy and transparency at the core.";
+export interface CorePromise {
+    icon: string;
+    title: string;
+    description: string;
+}
+export interface CorePromiseContainerProps {
+    heading: string;
+    subHeading: string;
+    promises: CorePromise[];
+}
 
-    const promises = [
-        {
-            icon: TrustIcon,
-            title: "Trust",
-            description:
-                "We believe trust is earned daily—through transparency, accountability, and consistent, user-focused innovation. ",
-        },
-        {
-            icon: TransparencyIcon,
-            title: "Transparency",
-            description:
-                "Clear, honest communication is foundational to every product we create and every interaction we have.",
-        },
-        {
-            icon: ControlIcon,
-            title: "Control",
-            description:
-                "Your data, your rules. Our solutions put you in charge of your digital experience, ensuring privacy by design and by default. ",
-        },
-    ];
+export default function CorePromise({
+    heading,
+    subHeading,
+    promises,
+}: CorePromiseContainerProps) {
+    // Map icon identifiers to actual components
+    const iconMap = {
+        trust: TrustIcon,
+        transparency: TransparencyIcon,
+        control: ControlIcon,
+    };
 
     return (
-        <section className="px-[16px] pb-[64px] md:pb-[100px] bg-white">
+        <section className="px-[16px] bg-white">
             <div
                 className="py-[80px] md:py-[100px] rounded-xl"
                 style={{
@@ -40,14 +37,14 @@ export default function CorePromise() {
             >
                 <div className="text-center flex flex-col gap-[12px] px-[24px] mb-[32px] md:mb-[48px]">
                     <h2 className="section-title font-josefin text-heading md:text-center md:mx-auto">
-                        {sectionTitle}
+                        {heading}
                     </h2>
-                    <p className="section-subtitle text-heading">{sectionSubtitle}</p>
+                    <p className="section-subtitle text-heading">{subHeading}</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 px-[24px] max-w-7xl mx-auto">
                     {promises.map((promise, index) => {
-                        const IconComponent = promise.icon;
+                        const IconComponent = iconMap[promise.icon as keyof typeof iconMap];
                         return (
                             <div
                                 key={index}

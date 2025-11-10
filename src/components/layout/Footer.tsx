@@ -103,7 +103,7 @@ export default function Footer() {
                     </div>
 
                     {/* Company Links */}
-                    <div className="flex flex-col gap-[12px]">
+                    <div className="flex flex-col">
                         <FooterTitle>{footerContent.company.title}</FooterTitle>
                         <div className="">
                             {footerContent.company.links.map((link, index) => (
@@ -118,7 +118,7 @@ export default function Footer() {
                     <div className="flex flex-col gap-[12px]">
                         <FooterTitle>{footerContent.contact.title}</FooterTitle>
                         <div className="flex flex-col gap-[8px]">
-                            <div className="flex items-center gap-[16px]">
+                            <div className="flex items-center gap-[8px]">
                                 <EmailIcon />
                                 <a
                                     href={`mailto:${footerContent.contact.email}`}
@@ -127,7 +127,7 @@ export default function Footer() {
                                     {footerContent.contact.email}
                                 </a>
                             </div>
-                            <div className="flex items-center gap-[16px]">
+                            <div className="flex items-center gap-[8px]">
                                 <CallIcon />
                                 <a
                                     href={`tel:${footerContent.contact.phone.replace(/\s/g, "")}`}

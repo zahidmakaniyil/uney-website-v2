@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
 import { Inter, Josefin_Sans } from "next/font/google";
 import "./globals.css";
+import Layout from "@/components/layout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -12,29 +12,13 @@ const josefinSans = Josefin_Sans({
   variable: "--font-josefin-sans",
 });
 
-export const metadata: Metadata = {
-  title: "UNEY - Privacy First, Always | AI-Powered Privacy Solutions",
-  description: "We build AI-powered, privacy-first solutions that put people in charge of their digital lives. From secure communication to transparent cloud protection.",
-  keywords: "privacy-first solutions, AI privacy, cybersecurity, digital privacy, secure communication",
-  authors: [{ name: "UNEY" }],
-  openGraph: {
-    title: "UNEY - Privacy First, Always",
-    description: "AI-powered, privacy-first solutions that put people in charge of their digital lives.",
-    type: "website",
-    url: "https://uney.com/",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "UNEY - Privacy First, Always",
-    description: "AI-powered, privacy-first solutions for digital privacy and security.",
-  },
-};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -64,10 +48,23 @@ export default function RootLayout({
     ]
   };
 
+
+
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+        <link
+          rel="icon"
+          href="/favicon-128.png"
+          type="image/png"
+          sizes="128x128"
+        />
+      </head>
       <body className={`${inter.variable} ${josefinSans.variable} antialiased`}>
-        {children}
+        <Layout>
+          {children}
+        </Layout>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

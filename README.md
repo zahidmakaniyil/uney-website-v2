@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UNEY Website
 
-## Getting Started
+A modern website built with Next.js 15.5.4, featuring the latest React 19 and cutting-edge web technologies.
 
-First, run the development server:
+## Prerequisites
+
+Before running this project, make sure you have the following installed:
+
+- **Node.js**: Version 18.18.0, 19.8.0, or 20.0.0+ (recommended: 20.x LTS)
+- **npm**: Version 9.0.0+ (comes with Node.js)
+- **Git**: For version control
+
+You can check your Node.js version by running:
+```bash
+node --version
+npm --version
+```
+
+## Installation
+
+1. **Clone the repository** (if not already done):
+   ```bash
+   git clone <repository-url>
+   cd uney-website
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+   This will install all the required packages including:
+   - Next.js 15.5.4
+   - React 19
+   - TypeScript
+   - Framer Motion
+   - Lucide React
+   - And other dependencies
+
+## Development
+
+### Start the Development Server
+
+To run the development server with hot reload:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Development Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Hot Reload**: Changes are reflected instantly in the browser
+- **TypeScript Support**: Full TypeScript integration with type checking
+- **Modern React**: Uses React 19 with the latest features
+- **App Router**: Built with Next.js App Router for optimal performance
+- **Fast Refresh**: Component state is preserved during development
 
-## Learn More
+### Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Start development server
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Build for production
+npm run build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Start production server
+npm start
 
-## Deploy on Vercel
+# Run linting
+npm run lint
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Run type checking
+npm run type-check
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Building for Production
+
+### Create Production Build
+
+```bash
+npm run build
+```
+
+This command:
+- Optimizes the application for production
+- Generates static files and server-side rendered pages
+- Minifies JavaScript and CSS
+- Creates an optimized bundle
+
+### Start Production Server
+
+After building, you can start the production server:
+
+```bash
+npm start
+```
+
+The production server will be available at [http://localhost:3000](http://localhost:3000).
