@@ -38,45 +38,45 @@ const HomePage = ({
     return (
         <>
             <Hero
-                headingLines={heroData?.headingLines || []}
-                subHeadingLines={heroData?.subHeadingLines || []}
-                buttonText={heroData?.buttonText || ''}
-                videoUrl={heroData?.videoUrl || ''}
+                headingLines={heroData?.headingLines}
+                subHeadingLines={heroData?.subHeadingLines}
+                buttonText={heroData?.buttonText}
+                videoUrl={heroData?.videoUrl}
             />
             <Solutions
-                heading={solutionsData?.heading || ''}
-                subHeading={solutionsData?.subHeading || ''}
-                solutions={solutionsData?.solutions || []}
-                tabs={solutionsData?.tabs || []}
+                heading={solutionsData?.heading}
+                subHeading={solutionsData?.subHeading}
+                solutions={solutionsData?.solutions}
+                tabs={solutionsData?.tabs}
             />
             <CorePromise
-                heading={corePromiseData?.heading || ''}
-                subHeading={corePromiseData?.subHeading || ''}
-                promises={corePromiseData?.promises || []}
+                heading={corePromiseData?.heading}
+                subHeading={corePromiseData?.subHeading}
+                promises={corePromiseData?.promises}
             />
             <About
-                heading={aboutData?.heading || ''}
-                subHeading={aboutData?.subHeading || ''}
-                ourVisionHeading={aboutData?.ourVisionHeading || ''}
-                ourMissionHeading={aboutData?.ourMissionHeading || ''}
-                ourVisionSubHeading={aboutData?.ourVisionSubHeading || ''}
-                ourMissionSubHeading={aboutData?.ourMissionSubHeading || ''}
+                heading={aboutData?.heading}
+                subHeading={aboutData?.subHeading}
+                ourVisionHeading={aboutData?.ourVisionHeading}
+                ourMissionHeading={aboutData?.ourMissionHeading}
+                ourVisionSubHeading={aboutData?.ourVisionSubHeading}
+                ourMissionSubHeading={aboutData?.ourMissionSubHeading}
             />
             <Team
-                heading={teamData?.heading || ''}
-                subHeading={teamData?.subHeading || ''}
-                buttonText={teamData?.buttonText || ''}
-                buttonLink={teamData?.buttonLink || ''}
+                heading={teamData?.heading}
+                subHeading={teamData?.subHeading}
+                buttonText={teamData?.buttonText}
+                buttonLink={teamData?.buttonLink}
             />
             <Resources
-                resources={resourcesData?.resources || []}
-                buttonText={resourcesData?.buttonText || ''}
-                buttonLink={resourcesData?.buttonLink || ''}
-                heading={resourcesData?.heading || ''}
+                resources={resourcesData?.resources}
+                buttonText={resourcesData?.buttonText}
+                buttonLink={resourcesData?.buttonLink}
+                heading={resourcesData?.heading}
             />
             <Cta
-                buttonText={ctaData.buttonText || ''}
-                buttonLink={ctaData.buttonLink || ''}
+                buttonText={ctaData.buttonText}
+                buttonLink={ctaData.buttonLink}
                 headingLines={ctaData.headingLines}
             />
         </>

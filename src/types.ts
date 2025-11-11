@@ -1,4 +1,3 @@
-// Type imports for page data interfaces
 import type { JobCardProps } from "@/components/JobCard";
 import type { CtaContainerProps } from "@/containers/Cta";
 import type { HeroContainerProps } from "@/containers/Hero";

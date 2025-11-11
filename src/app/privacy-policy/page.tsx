@@ -1,36 +1,10 @@
 import { Metadata } from "next";
 import { privacyPolicyPageData } from "@/dummyData/privacyPolicy";
 import PrivacyPolicyPageComponent from "@/pages/PrivacyPolicy";
-import { PageMetaData, PrivacyPolicyPageData } from "@/types";
-import { CACHE_DURATION } from "@/utils/constants";
+import { PrivacyPolicyPageData } from "@/types";
 
-// Simple in-memory cache for privacy policy page data
-let privacyPolicyPageDataCache: PrivacyPolicyPageData | null = null;
-let cacheTimestamp = 0;
-
-// Privacy policy page data using simple cache with time duration
 const getPrivacyPolicyPageData = async (): Promise<PrivacyPolicyPageData> => {
-  const now = Date.now();
-
-  // Only return cache if it's valid
-  if (privacyPolicyPageDataCache && (now - cacheTimestamp) < CACHE_DURATION) {
-    if (privacyPolicyPageDataCache.contentData && privacyPolicyPageDataCache.ctaData) {
-      return privacyPolicyPageDataCache;
-    }
-    // Clear invalid cache
-    privacyPolicyPageDataCache = null;
-  }
-
-  await new Promise((resolve) => setTimeout(resolve, 50));
-
-  if (!privacyPolicyPageData || !privacyPolicyPageData.contentData || !privacyPolicyPageData.ctaData) {
-    throw new Error("Privacy policy page data is not available or incomplete");
-  }
-
-  privacyPolicyPageDataCache = privacyPolicyPageData;
-
-  cacheTimestamp = now;
-  return privacyPolicyPageDataCache;
+  return privacyPolicyPageData;
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -87,27 +61,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PrivacyPolicyPage() {
   const pageData = await getPrivacyPolicyPageData();
 
-  if (!pageData) {
-    throw new Error("Privacy policy page data is not available");
-  }
-
-  if (!pageData.contentData) {
-    throw new Error("Privacy policy page contentData is missing");
-  }
-
-  if (!pageData.ctaData) {
-    throw new Error("Privacy policy page ctaData is missing");
-  }
-
-  // Ensure contentData has all required properties
-  if (!pageData.contentData.heading || !pageData.contentData.content) {
-    throw new Error("Privacy policy page contentData is missing required properties");
-  }
-
-  // Create explicit objects with fallbacks to ensure proper serialization during build
   const contentData = {
-    heading: pageData.contentData?.heading || 'Privacy Policy',
-    content: pageData.contentData?.content || '',
+    heading: pageData.contentData?.heading,
+    content: pageData.contentData?.content,
   };
 
   return (
